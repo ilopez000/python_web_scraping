@@ -33,12 +33,14 @@ def extraer_informacion(url):
         soup = BeautifulSoup(respuesta.text, 'html.parser')
 
         # Busca el span con la clase 'sln-member-name' que contenga el texto 'Magdalena ADAMOWICZ'
-        nombre = soup.find('span', class_='sln-member-name')
+        span = soup.find('span', class_='sln-member-name')
         partido= soup.find('h3', class_='sln-political-group-name')
+        pais=soup.find('div', class_='erpl_title-h3')
 
-        if nombre:
-            print(nombre.text)
+        if span:
+            print(span.text)
             print(partido.text)
+            print(pais.text)
         else:
             print("No se encontró el elemento buscado.")
     else:
