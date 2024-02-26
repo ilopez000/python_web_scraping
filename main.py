@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 
 def descargar_html(url, nombre_archivo_salida):
     try:
@@ -17,6 +18,31 @@ def descargar_html(url, nombre_archivo_salida):
         print(f"Ocurrió un error al descargar la página: {e}")
 
 # Ejemplo de uso
-url = "https://ejemplo.com"
-nombre_archivo_salida = "pagina_descargada.html"
-descargar_html(url, nombre_archivo_salida)
+#url = "https://es.wikipedia.org/wiki/Wikipedia"
+#nombre_archivo_salida = "pagina_descargada.html"
+#descargar_html(url, nombre_archivo_salida)
+
+
+def extraer_informacion(url):
+    # Realiza la petición HTTP a la URL indicada
+    respuesta = requests.get(url)
+
+    # Verifica que la petición fue exitosa
+    if respuesta.status_code == 200:
+        # Parsea el contenido HTML de la respuesta utilizando BeautifulSoup
+        soup = BeautifulSoup(respuesta.text, 'html.parser')
+
+        # Busca el span con la clase 'sln-member-name' que contenga el texto 'Magdalena ADAMOWICZ'
+        span = soup.find('span', class_='sln-member-name')
+
+        if span:
+            print(span.text)
+        else:
+            print("No se encontró el elemento buscado.")
+    else:
+        print(f"Error al acceder a la página: {respuesta.status_code}")
+
+
+# Ejemplo de uso
+url = "https://www.europarl.europa.eu/meps/es/197490/MAGDALENA_ADAMOWICZ/home"
+extraer_informacion(url)
