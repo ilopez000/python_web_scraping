@@ -1,0 +1,46 @@
+Seleccionar un <div> por su id
+Para seleccionar un <div> específico por su id, puedes usar el método .find() o .find_all() de BeautifulSoup, 
+dependiendo de si esperas encontrar uno o varios elementos con el mismo id (aunque debería haber solo uno, 
+ya que los id deben ser únicos en un documento).
+
+from bs4 import BeautifulSoup
+import requests
+
+# Obtiene el contenido HTML de la página web
+url = "https://ejemplo.com"
+respuesta = requests.get(url)
+html = respuesta.text
+
+# Crea un objeto BeautifulSoup
+soup = BeautifulSoup(html, 'html.parser')
+
+# Selecciona el <div> por su id
+div_con_id = soup.find('div', id='id_del_div')
+
+print(div_con_id)
+
+
+Seleccionar <div>s por su class
+Para seleccionar elementos <div> por su clase, puedes utilizar .find_all() y especificar el argumento class_:
+
+# Selecciona todos los <div> que tengan la clase 'clase_del_div'
+divs_con_clase = soup.find_all('div', class_='clase_del_div')
+
+for div in divs_con_clase:
+    print(div)
+
+Nota sobre el argumento class_
+Usamos class_ (con un guion bajo al final) en lugar de class porque class es una palabra reservada en Python. El guion bajo al final permite que usemos este nombre sin entrar en conflicto con la sintaxis de Python.
+
+Uso de selectores CSS
+Además, BeautifulSoup permite el uso de selectores CSS, lo que puede ser muy útil para seleccionar elementos por id o class de una manera más flexible:
+
+# Seleccionar un div por su id usando selectores CSS
+div_con_id = soup.select_one('#id_del_div')
+print(div_con_id)
+
+# Seleccionar todos los divs por su clase usando selectores CSS
+divs_con_clase = soup.select('.clase_del_div')
+for div in divs_con_clase:
+    print(div)
+
